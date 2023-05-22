@@ -1,0 +1,71 @@
+type User {
+    id: ID!
+    email: String!
+    password: String!
+    full_name: String!
+    phone_number: String!
+    id_card: String!
+    member_card: Int!
+    date_of_birth: String!
+    createdAt: Time
+    updatedAt: Time
+}
+
+enum UserOrderField {
+    ID
+    email
+    CREATED_AT
+    UPDATED_AT
+}
+
+input UserOrder {
+    direction: OrderDirection!
+    field: UserOrderField
+}
+
+type UserConnection {
+    edges: [UserEdge]
+    pageInfo: PageInfo!
+    totalCount: Int!
+}
+
+type UserEdge {
+    node: User
+    cursor: Cursor!
+}
+
+input NewUserInput {
+    email: String!
+}
+
+type Query {
+    users(after: Cursor, first: Int, before: Cursor, last: Int, orderBy: UserOrder): UserConnection!
+}
+ type AuthPayload {
+ token: String!
+ user: User!
+}
+type Mutation {
+  signin(input:SigninInput!): AuthPayload
+  signup(input:SignupInput!): User
+}
+
+
+type SignupResponse {
+  success: Boolean!
+  message: String!
+}
+
+input SignupInput {
+  email: String!
+  full_name: String!
+  phone_number: String!
+  id_card: String!
+  member_card: Int!
+  date_of_birth: String!
+  password: String!
+}
+input SigninInput {
+  email: String!
+  password: String!
+}
